@@ -1,0 +1,21 @@
+name = "f1-fantasy-api"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+account_id = "5a513c9b76b7640bf906b4c39632ee7d"
+
+[vars]
+ENVIRONMENT = "development"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "f1-fantasy-db"
+database_id = "41dd7908-1d07-4d31-845f-99463a6f8688"
+
+[[kv_namespaces]]
+binding = "JWT_BLACKLIST"
+id = "f6013009005642abb9ecfff48bd121e8"
+
+# Secrets (set via: wrangler secret put JWT_SECRET)
+# JWT_SECRET
+# REFRESH_SECRET

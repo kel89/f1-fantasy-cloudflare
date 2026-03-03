@@ -1,0 +1,53 @@
+-- 2026 F1 Season Seed Data
+
+-- ─── Drivers ─────────────────────────────────────────────────────────────────
+INSERT INTO drivers (id, first_name, last_name, abbreviation, number, team) VALUES
+  ('nor', 'Lando',    'Norris',     'NOR', '4',  'McLaren'),
+  ('pia', 'Oscar',    'Piastri',    'PIA', '81', 'McLaren'),
+  ('rus', 'George',   'Russell',    'RUS', '63', 'Mercedes'),
+  ('ant', 'Andrea',   'Antonelli',  'ANT', '12', 'Mercedes'),
+  ('ver', 'Max',      'Verstappen', 'VER', '3',  'Red Bull'),
+  ('had', 'Isack',    'Hadjar',     'HAD', '6',  'Red Bull'),
+  ('lec', 'Charles',  'Leclerc',    'LEC', '16', 'Ferrari'),
+  ('ham', 'Lewis',    'Hamilton',   'HAM', '44', 'Ferrari'),
+  ('alb', 'Alexander','Albon',      'ALB', '23', 'Williams'),
+  ('sai', 'Carlos',   'Sainz',      'SAI', '55', 'Williams'),
+  ('law', 'Liam',     'Lawson',     'LAW', '30', 'Racing Bulls'),
+  ('lin', 'Arvid',    'Lindblad',   'LIN', '41', 'Racing Bulls'),
+  ('alo', 'Fernando', 'Alonso',     'ALO', '14', 'Aston Martin'),
+  ('str', 'Lance',    'Stroll',     'STR', '18', 'Aston Martin'),
+  ('oco', 'Esteban',  'Ocon',       'OCO', '31', 'Haas'),
+  ('bea', 'Oliver',   'Bearman',    'BEA', '87', 'Haas'),
+  ('bor', 'Gabriel',  'Bortoleto',  'BOR', '5',  'Audi'),
+  ('hul', 'Nico',     'Hulkenberg', 'HUL', '27', 'Audi'),
+  ('gas', 'Pierre',   'Gasly',      'GAS', '10', 'Alpine'),
+  ('col', 'Franco',   'Colapinto',  'COL', '43', 'Alpine'),
+  ('per', 'Sergio',   'Perez',      'PER', '11', 'Cadillac'),
+  ('bot', 'Valtteri', 'Bottas',     'BOT', '77', 'Cadillac');
+
+-- ─── 2026 Race Calendar ───────────────────────────────────────────────────────
+INSERT INTO races (id, round, name, city, country, race_date, status) VALUES
+  ('r01', 1,  'Australian Grand Prix',      'Melbourne',     'Australia',    '2026-03-08T04:00:00Z', 'upcoming'),
+  ('r02', 2,  'Chinese Grand Prix',         'Shanghai',      'China',        '2026-03-15T07:00:00Z', 'upcoming'),
+  ('r03', 3,  'Japanese Grand Prix',        'Suzuka',        'Japan',        '2026-03-29T05:00:00Z', 'upcoming'),
+  ('r04', 4,  'Bahrain Grand Prix',         'Sakhir',        'Bahrain',      '2026-04-12T15:00:00Z', 'upcoming'),
+  ('r05', 5,  'Saudi Arabian Grand Prix',   'Jeddah',        'Saudi Arabia', '2026-04-19T17:00:00Z', 'upcoming'),
+  ('r06', 6,  'Miami Grand Prix',           'Miami',         'USA',          '2026-05-03T20:00:00Z', 'upcoming'),
+  ('r07', 7,  'Canadian Grand Prix',        'Montreal',      'Canada',       '2026-05-24T20:00:00Z', 'upcoming'),
+  ('r08', 8,  'Monaco Grand Prix',          'Monaco',        'Monaco',       '2026-06-07T13:00:00Z', 'upcoming'),
+  ('r09', 9,  'Spanish Grand Prix',         'Barcelona',     'Spain',        '2026-06-14T13:00:00Z', 'upcoming'),
+  ('r10', 10, 'Austrian Grand Prix',        'Spielberg',     'Austria',      '2026-06-28T13:00:00Z', 'upcoming'),
+  ('r11', 11, 'British Grand Prix',         'Silverstone',   'Great Britain','2026-07-05T14:00:00Z', 'upcoming'),
+  ('r12', 12, 'Belgian Grand Prix',         'Spa',           'Belgium',      '2026-07-19T13:00:00Z', 'upcoming'),
+  ('r13', 13, 'Hungarian Grand Prix',       'Budapest',      'Hungary',      '2026-07-26T13:00:00Z', 'upcoming'),
+  ('r14', 14, 'Dutch Grand Prix',           'Zandvoort',     'Netherlands',  '2026-08-23T13:00:00Z', 'upcoming'),
+  ('r15', 15, 'Italian Grand Prix',         'Monza',         'Italy',        '2026-09-06T13:00:00Z', 'upcoming'),
+  ('r16', 16, 'Madrid Grand Prix',          'Madrid',        'Spain',        '2026-09-13T13:00:00Z', 'upcoming'),
+  ('r17', 17, 'Azerbaijan Grand Prix',      'Baku',          'Azerbaijan',   '2026-09-26T11:00:00Z', 'upcoming'),
+  ('r18', 18, 'Singapore Grand Prix',       'Singapore',     'Singapore',    '2026-10-11T12:00:00Z', 'upcoming'),
+  ('r19', 19, 'United States Grand Prix',   'Austin',        'USA',          '2026-10-25T20:00:00Z', 'upcoming'),
+  ('r20', 20, 'Mexico City Grand Prix',     'Mexico City',   'Mexico',       '2026-11-01T20:00:00Z', 'upcoming'),
+  ('r21', 21, 'São Paulo Grand Prix',       'São Paulo',     'Brazil',       '2026-11-08T17:00:00Z', 'upcoming'),
+  ('r22', 22, 'Las Vegas Grand Prix',       'Las Vegas',     'USA',          '2026-11-22T04:00:00Z', 'upcoming'),
+  ('r23', 23, 'Qatar Grand Prix',           'Lusail',        'Qatar',        '2026-11-29T16:00:00Z', 'upcoming'),
+  ('r24', 24, 'Abu Dhabi Grand Prix',       'Abu Dhabi',     'UAE',          '2026-12-06T13:00:00Z', 'upcoming');
