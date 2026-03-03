@@ -21,14 +21,14 @@ export default function RaceCard({ data }: RaceCardProps) {
   return (
     <div
       onClick={() => navigate(`/race/${data.id}`)}
-      className="w-full border border-gray-200 shadow-lg p-3 flex justify-between items-center cursor-pointer transition ease-in-out duration-300 hover:border-2 hover:border-red-500 bg-white rounded"
+      className="w-full border border-gray-200 dark:border-gray-700 shadow-lg p-3 flex justify-between items-center cursor-pointer transition ease-in-out duration-300 hover:border-2 hover:border-red-500 bg-white dark:bg-gray-800 rounded"
     >
       <div>
-        <div className="text-lg font-medium">{data.name}</div>
-        <div className="text-gray-500 text-sm">
+        <div className="text-lg font-medium dark:text-gray-100">{data.name}</div>
+        <div className="text-gray-500 dark:text-gray-400 text-sm">
           {data.city}, {data.country}
         </div>
-        <div className="text-gray-400 text-sm">
+        <div className="text-gray-400 dark:text-gray-500 text-sm">
           {new Date(data.race_date).toLocaleDateString(undefined, {
             weekday: "short",
             year: "numeric",

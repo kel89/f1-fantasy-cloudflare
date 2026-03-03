@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { Env } from "../types";
 import { requireAuth } from "../middleware/auth";
 import { requireAdmin } from "../middleware/auth";
+import { safeJsonParse } from "../lib/safeJson";
 
 const races = new Hono<{ Bindings: Env }>();
 
@@ -71,9 +72,9 @@ races.get("/:id", async (c) => {
     id: r.id,
     user_id: r.user_id,
     race_id: r.race_id,
-    driver_order: JSON.parse(r.driver_order as string || "[]"),
+    driver_order: safeJsonParse<string[]>(r.driver_order as string, []),
     total_points: r.total_points,
-    breakdown: r.breakdown ? JSON.parse(r.breakdown as string) : null,
+    breakdown: safeJsonParse<number[] | null>(r.breakdown as string, null),
     updated_at: r.updated_at,
     user: {
       id: r.user_id,

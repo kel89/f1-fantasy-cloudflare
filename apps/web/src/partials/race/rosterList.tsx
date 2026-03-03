@@ -2,8 +2,12 @@ import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import type { Driver, Roster, Result, RaceWithDetails } from "@f1/shared";
+import IconButton from "@mui/material/IconButton";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import type { Driver, RaceWithDetails } from "@f1/shared";
 import RosterPreview from "./rosterPreview";
+import HeadToHead from "./headToHead";
+import { useAuthStore } from "../../store/auth";
 
 interface RosterListProps {
   race: RaceWithDetails;
@@ -14,13 +18,16 @@ type RaceRoster = RaceWithDetails["rosters"][number];
 
 export default function RosterList({ race, drivers }: RosterListProps) {
   const [selected, setSelected] = useState<RaceRoster | null>(null);
+  const [compareTarget, setCompareTarget] = useState<RaceRoster | null>(null);
+  const { user } = useAuthStore();
 
-  const results = race.results as Array<Result & { driver: Driver }>;
+  const results = race.results;
+  const myRoster = user ? race.rosters.find((r) => r.user_id === user.id) : null;
 
   return (
     <>
-      <div className="p-4 bg-white border shadow-lg rounded">
-        <h2 className="font-[Racing_Sans_One] text-xl text-gray-500 mb-2">Other Rosters</h2>
+      <div className="p-4 bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-lg rounded">
+        <h2 className="font-[Racing_Sans_One] text-xl text-gray-500 dark:text-gray-300 mb-2">Other Rosters</h2>
         {race.rosters.length === 0 ? (
           <p className="text-gray-400 text-sm">No rosters submitted yet.</p>
         ) : (
@@ -30,13 +37,26 @@ export default function RosterList({ race, drivers }: RosterListProps) {
               .map((roster) => (
                 <div
                   key={roster.id}
-                  className="w-full border-b border-gray-100 flex justify-between items-center cursor-pointer hover:bg-gray-50 py-2 px-1"
+                  className="w-full border-b border-gray-100 dark:border-gray-700 flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 py-2 px-1"
                   onClick={() => setSelected(roster)}
                 >
-                  <span className="text-gray-700">{roster.user.nickname}</span>
-                  <span className="font-semibold text-gray-600">
-                    {roster.total_points != null ? `${roster.total_points} pts` : "—"}
-                  </span>
+                  <span className="text-gray-700 dark:text-gray-200">{roster.user.nickname}</span>
+                  <div className="flex items-center gap-1">
+                    <span className="font-semibold text-gray-600 dark:text-gray-300">
+                      {roster.total_points != null ? `${roster.total_points} pts` : "—"}
+                    </span>
+                    {myRoster && roster.user_id !== user?.id && (
+                      <IconButton
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCompareTarget(roster);
+                        }}
+                      >
+                        <CompareArrowsIcon fontSize="small" />
+                      </IconButton>
+                    )}
+                  </div>
                 </div>
               ))}
           </div>
@@ -56,7 +76,7 @@ export default function RosterList({ race, drivers }: RosterListProps) {
             </DialogTitle>
             <DialogContent>
               <RosterPreview
-                roster={selected as unknown as Roster}
+                roster={selected}
                 drivers={drivers}
                 results={results}
               />
@@ -64,6 +84,17 @@ export default function RosterList({ race, drivers }: RosterListProps) {
           </>
         )}
       </Dialog>
+
+      {myRoster && compareTarget && (
+        <HeadToHead
+          open={!!compareTarget}
+          onClose={() => setCompareTarget(null)}
+          myRoster={myRoster}
+          theirRoster={compareTarget}
+          race={race}
+          drivers={drivers}
+        />
+      )}
     </>
   );
 }

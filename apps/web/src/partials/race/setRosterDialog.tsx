@@ -109,7 +109,7 @@ export default function SetRosterDialog({
       </AppBar>
 
       {error && (
-        <div className="bg-red-50 text-red-700 px-4 py-2 text-sm">{error}</div>
+        <div className="bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 px-4 py-2 text-sm">{error}</div>
       )}
 
       {drivers.length > 0 && driverOrder.length > 0 && (

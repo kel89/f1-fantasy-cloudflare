@@ -1,6 +1,7 @@
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import { Layout } from "../utils/layout";
 import { useAuthStore } from "../store/auth";
@@ -31,9 +32,9 @@ export default function Settings() {
 
   return (
     <Layout pageName="Settings">
-      <div className="p-6 grid sm:grid-cols-2 grid-cols-1 gap-8 bg-gray-100 min-h-screen">
-        <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-lg">
-          <h1 className="font-[Racing_Sans_One] text-xl text-gray-700 mb-4">
+      <div className="p-6 grid sm:grid-cols-2 grid-cols-1 gap-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800 shadow-lg">
+          <h1 className="font-[Racing_Sans_One] text-xl text-gray-700 dark:text-gray-200 mb-4">
             Change Nickname
           </h1>
 
@@ -63,7 +64,7 @@ export default function Settings() {
                 color="success"
                 onClick={handleSave}
                 disabled={loading || !nickname.trim()}
-                loading={loading}
+                startIcon={loading ? <CircularProgress size={20} color="inherit" /> : undefined}
               >
                 Save Nickname
               </Button>
@@ -71,9 +72,9 @@ export default function Settings() {
           </div>
         </div>
 
-        <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-lg">
-          <h1 className="font-[Racing_Sans_One] text-xl text-gray-700 mb-2">Account</h1>
-          <div className="text-gray-600 space-y-1 text-sm">
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white dark:bg-gray-800 shadow-lg">
+          <h1 className="font-[Racing_Sans_One] text-xl text-gray-700 dark:text-gray-200 mb-2">Account</h1>
+          <div className="text-gray-600 dark:text-gray-300 space-y-1 text-sm">
             <div><span className="font-medium">Name:</span> {user?.given_name} {user?.family_name}</div>
             <div><span className="font-medium">Email:</span> {user?.email}</div>
             <div><span className="font-medium">Total Points:</span> {user?.total_points}</div>

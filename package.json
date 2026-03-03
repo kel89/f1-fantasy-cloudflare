@@ -5,6 +5,9 @@
     "dev": "pnpm --parallel --filter './apps/*' dev",
     "build": "pnpm --filter './packages/*' build && pnpm --filter './apps/*' build",
     "test": "pnpm --recursive test",
+    "deploy:api": "pnpm --filter @f1/api run deploy",
+    "deploy:web": "pnpm --filter @f1/web run deploy",
+    "deploy": "pnpm deploy:api && pnpm deploy:web",
     "make-admin": "tsx scripts/make-admin.ts"
   },
   "devDependencies": {

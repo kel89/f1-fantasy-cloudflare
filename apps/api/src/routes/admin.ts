@@ -6,6 +6,7 @@ import { requireAuth } from "../middleware/auth";
 import { requireAdmin } from "../middleware/auth";
 import { generateId } from "../lib/ids";
 import { calculateRosterPoints } from "@f1/shared";
+import { safeJsonParse } from "../lib/safeJson";
 
 const admin = new Hono<{ Bindings: Env }>();
 
@@ -90,7 +91,7 @@ admin.post("/races/:id/score", zValidator("json", scoreRaceSchema), async (c) =>
 
   // Calculate points for each roster
   const rosterUpdates = rostersResult.results.map((roster) => {
-    const driverOrder: string[] = JSON.parse(roster.driver_order || "[]");
+    const driverOrder: string[] = safeJsonParse<string[]>(roster.driver_order, []);
     const { total, breakdown } = calculateRosterPoints(driverOrder, positionMap);
     return { rosterId: roster.id, userId: roster.user_id, total, breakdown };
   });
@@ -217,6 +218,40 @@ admin.patch("/users/:id", zValidator("json", patchUserSchema), async (c) => {
     "SELECT id, email, given_name, family_name, nickname, total_points, admin, created_at FROM users WHERE id = ?"
   )
     .bind(userId)
+    .first();
+
+  return c.json(updated);
+});
+
+// ── Unlock a locked race (1hr override) ──────────────────────────────────────
+// POST /api/admin/races/:id/unlock
+admin.post("/races/:id/unlock", async (c) => {
+  const raceId = c.req.param("id");
+
+  const race = await c.env.DB.prepare("SELECT * FROM races WHERE id = ?")
+    .bind(raceId)
+    .first<{ id: string; status: string; name: string }>();
+
+  if (!race) {
+    return c.json({ error: "Race not found", code: "NOT_FOUND" }, 404);
+  }
+  if (race.status !== "locked") {
+    return c.json(
+      { error: "Race is not locked", code: "NOT_LOCKED" },
+      409
+    );
+  }
+
+  const overrideUntil = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
+  await c.env.DB.prepare(
+    "UPDATE races SET status = 'upcoming', lock_override_until = ? WHERE id = ?"
+  )
+    .bind(overrideUntil, raceId)
+    .run();
+
+  const updated = await c.env.DB.prepare("SELECT * FROM races WHERE id = ?")
+    .bind(raceId)
     .first();
 
   return c.json(updated);

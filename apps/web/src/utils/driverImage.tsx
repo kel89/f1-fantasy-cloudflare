@@ -1,3 +1,5 @@
+import PersonIcon from "@mui/icons-material/Person";
+
 // Import all driver images statically so Vite bundles them correctly
 import alb from "../assets/drivers/alb.png";
 import alo from "../assets/drivers/alo.png";
@@ -36,7 +38,13 @@ export function DriverImage({
   className = "inline-block h-12 w-12",
 }: DriverImageProps) {
   const src = IMAGES[abbreviation.toLowerCase()];
-  if (!src) return null;
+  if (!src) {
+    return (
+      <div className={`${className} rounded-full bg-gray-300 flex items-center justify-center`}>
+        <PersonIcon sx={{ fontSize: "70%", width: "70%", height: "70%" }} className="text-gray-500" />
+      </div>
+    );
+  }
   return (
     <img
       src={src}

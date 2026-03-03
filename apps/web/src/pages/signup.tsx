@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import { useAuthStore } from "../store/auth";
 
@@ -37,12 +38,12 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-sm">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 w-full max-w-sm">
         <h1 className="text-3xl font-[Racing_Sans_One] text-red-600 mb-6 text-center">
           F1 Fantasy
         </h1>
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Create Account</h2>
+        <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">Create Account</h2>
 
         {error && (
           <Alert severity="error" className="mb-4" onClose={() => setError(null)}>
@@ -103,13 +104,13 @@ export default function Signup() {
             color="error"
             fullWidth
             disabled={isLoading}
-            loading={isLoading}
+            startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : undefined}
           >
             Create Account
           </Button>
         </form>
 
-        <p className="text-center text-gray-500 mt-4 text-sm">
+        <p className="text-center text-gray-500 dark:text-gray-400 mt-4 text-sm">
           Already have an account?{" "}
           <Link to="/login" className="text-red-600 hover:underline">
             Sign in

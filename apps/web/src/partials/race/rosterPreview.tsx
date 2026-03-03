@@ -2,7 +2,7 @@ import type { Driver, Roster, Result } from "@f1/shared";
 import { DriverImage } from "../../utils/driverImage";
 
 interface RosterPreviewProps {
-  roster: Roster;
+  roster: Pick<Roster, "driver_order" | "breakdown" | "total_points">;
   drivers: Driver[];
   results?: Array<Result & { driver: Driver }>;
 }
@@ -30,24 +30,24 @@ export default function RosterPreview({ roster, drivers, results }: RosterPrevie
 
         let rowBg = "";
         if (isScored) {
-          rowBg = isCorrect ? "bg-green-100" : "bg-red-50";
+          rowBg = isCorrect ? "bg-green-100 dark:bg-green-900/30" : "bg-red-50 dark:bg-red-900/30";
         }
 
         return (
           <div
             key={abbr}
-            className={`flex gap-3 items-center border-t border-gray-100 py-1 transition duration-200 ${rowBg}`}
+            className={`flex gap-3 items-center border-t border-gray-100 dark:border-gray-700 py-1 transition duration-200 ${rowBg}`}
           >
-            <div className="font-bold text-gray-800 text-lg w-6 text-right">{i + 1}</div>
+            <div className="font-bold text-gray-800 dark:text-gray-200 text-lg w-6 text-right">{i + 1}</div>
             <DriverImage abbreviation={abbr} className="h-10 w-10 object-cover" />
             <div className="flex-1">
               <div className="text-sm font-medium">
                 {driver ? `${driver.first_name} ${driver.last_name}` : abbr}
               </div>
-              {driver && <div className="text-xs text-gray-400">{driver.team}</div>}
+              {driver && <div className="text-xs text-gray-400 dark:text-gray-500">{driver.team}</div>}
             </div>
             {isScored && (
-              <div className="text-sm font-semibold text-gray-700 min-w-8 text-right">
+              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 min-w-8 text-right">
                 {pts !== undefined ? (pts > 0 ? `+${pts}` : "0") : ""}
               </div>
             )}
@@ -55,7 +55,7 @@ export default function RosterPreview({ roster, drivers, results }: RosterPrevie
         );
       })}
       {breakdown && (
-        <div className="mt-2 text-right text-sm font-bold text-gray-700">
+        <div className="mt-2 text-right text-sm font-bold text-gray-700 dark:text-gray-200">
           Total: {roster.total_points ?? 0} pts
         </div>
       )}

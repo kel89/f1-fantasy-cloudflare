@@ -14,6 +14,7 @@ const auth = new Hono<{ Bindings: Env }>();
 // Rate-limit login and signup: 10 attempts per minute per IP
 auth.use("/login", rateLimit(10, 60));
 auth.use("/signup", rateLimit(5, 60));
+auth.use("/reset-password", rateLimit(5, 60));
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -26,6 +27,32 @@ const signupSchema = z.object({
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
+});
+
+// POST /api/auth/reset-password
+const resetPasswordSchema = z.object({
+  email: z.string().email(),
+  newPassword: z.string().min(8).max(128),
+});
+
+auth.post("/reset-password", zValidator("json", resetPasswordSchema), async (c) => {
+  const { email, newPassword } = c.req.valid("json");
+
+  const user = await c.env.DB.prepare("SELECT id FROM users WHERE email = ?")
+    .bind(email.toLowerCase())
+    .first<{ id: string }>();
+
+  if (!user) {
+    return c.json({ error: "No account found with that email", code: "NOT_FOUND" }, 404);
+  }
+
+  const password_hash = await hashPassword(newPassword);
+
+  await c.env.DB.prepare("UPDATE users SET password_hash = ? WHERE id = ?")
+    .bind(password_hash, user.id)
+    .run();
+
+  return c.json({ ok: true });
 });
 
 // POST /api/auth/signup

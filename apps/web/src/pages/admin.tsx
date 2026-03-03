@@ -18,11 +18,13 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
   Paper,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 import type { TransitionProps } from "@mui/material/transitions";
 import type { Race, Driver, User } from "@f1/shared";
 import { api, ApiError } from "../api/client";
@@ -117,7 +119,7 @@ function ScoreRaceDialog({
 
       {!confirmed ? (
         <div>
-          <div className="text-center py-3 text-gray-600 font-medium">
+          <div className="text-center py-3 text-gray-600 dark:text-gray-300 font-medium">
             Set finishing order (drag to reorder)
           </div>
           <RosterEditor
@@ -136,7 +138,7 @@ function ScoreRaceDialog({
             {driverOrder.slice(0, 10).map((abbr, i) => {
               const d = drivers.find((dr) => dr.abbreviation === abbr);
               return (
-                <div key={abbr} className="flex items-center gap-3 p-2 bg-gray-50 rounded">
+                <div key={abbr} className="flex items-center gap-3 p-2 bg-gray-50 dark:bg-gray-700 rounded">
                   <span className="font-bold w-6 text-right">{i + 1}</span>
                   <span>{d ? `${d.first_name} ${d.last_name}` : abbr}</span>
                 </div>
@@ -235,6 +237,7 @@ function RacesTab() {
   const [scoreRace, setScoreRace] = useState<Race | null>(null);
   const [editRace, setEditRace] = useState<Race | null>(null);
   const [resetting, setResetting] = useState<string | null>(null);
+  const [unlocking, setUnlocking] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -259,6 +262,20 @@ function RacesTab() {
     }
   };
 
+  const handleUnlock = async (race: Race) => {
+    if (!confirm(`Unlock ${race.name} for 1 hour? Users will be able to edit rosters.`)) return;
+    setUnlocking(race.id);
+    setError(null);
+    try {
+      const updated = await api.admin.unlockRace(race.id);
+      setRaces((rs) => rs.map((r) => (r.id === race.id ? updated : r)));
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Failed to unlock race");
+    } finally {
+      setUnlocking(null);
+    }
+  };
+
   const STATUS_COLOR = { upcoming: "default", locked: "warning", scored: "success" } as const;
 
   if (loading) return <div className="flex justify-center py-8"><CircularProgress color="error" /></div>;
@@ -266,7 +283,7 @@ function RacesTab() {
   return (
     <div>
       {error && <Alert severity="error" className="mb-3" onClose={() => setError(null)}>{error}</Alert>}
-      <Paper>
+      <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -296,6 +313,17 @@ function RacesTab() {
                         Score
                       </Button>
                     )}
+                    {race.status === "locked" && (
+                      <Button
+                        size="small"
+                        color="info"
+                        startIcon={<LockOpenIcon />}
+                        onClick={() => handleUnlock(race)}
+                        disabled={unlocking === race.id}
+                      >
+                        {unlocking === race.id ? "Unlocking..." : "Unlock"}
+                      </Button>
+                    )}
                     {race.status === "scored" && (
                       <Button
                         size="small"
@@ -312,7 +340,7 @@ function RacesTab() {
             ))}
           </TableBody>
         </Table>
-      </Paper>
+      </TableContainer>
 
       <ScoreRaceDialog
         race={scoreRace}
@@ -382,7 +410,7 @@ function UsersTab() {
 
   return (
     <div>
-      <Paper>
+      <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -407,7 +435,7 @@ function UsersTab() {
             ))}
           </TableBody>
         </Table>
-      </Paper>
+      </TableContainer>
 
       <Dialog open={!!editUser} onClose={() => setEditUser(null)} fullWidth maxWidth="xs">
         <div className="p-4">
@@ -432,7 +460,7 @@ function UsersTab() {
             />
           </div>
           <div className="flex gap-2 mt-4">
-            <Button variant="contained" color="error" onClick={handleSave} disabled={saving} loading={saving}>
+            <Button variant="contained" color="error" onClick={handleSave} disabled={saving} startIcon={saving ? <CircularProgress size={20} color="inherit" /> : undefined}>
               Save
             </Button>
             <Button onClick={() => setEditUser(null)} disabled={saving}>Cancel</Button>
@@ -449,8 +477,8 @@ export default function Admin() {
 
   return (
     <Layout pageName="Admin">
-      <div className="p-6 bg-gray-100 min-h-screen">
-        <h1 className="font-[Racing_Sans_One] text-3xl text-gray-800 mb-4">Admin Dashboard</h1>
+      <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
+        <h1 className="font-[Racing_Sans_One] text-3xl text-gray-800 dark:text-gray-100 mb-4">Admin Dashboard</h1>
 
         <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 2 }}>
           <Tabs value={tab} onChange={(_, v) => setTab(v)} indicatorColor="secondary">

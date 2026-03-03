@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
+import Skeleton from "@mui/material/Skeleton";
 import Chip from "@mui/material/Chip";
 import type { Driver, RaceWithDetails, Roster } from "@f1/shared";
 import { api } from "../api/client";
@@ -45,26 +45,32 @@ export default function Race() {
 
   return (
     <Layout pageName={race ? race.city : "Race"}>
-      <div className="p-6 bg-gray-100 min-h-screen">
+      <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
         {loading || !race ? (
-          <div className="flex justify-center py-12">
-            <CircularProgress color="error" />
+          <div>
+            <Skeleton variant="text" width={200} height={40} className="mb-2" />
+            <Skeleton variant="text" width={150} height={24} className="mb-1" />
+            <Skeleton variant="text" width={250} height={20} className="mb-4" />
+            <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+              <Skeleton variant="rounded" height={300} />
+              <Skeleton variant="rounded" height={300} />
+            </div>
           </div>
         ) : (
           <>
             <div className="mb-4">
               <div className="flex items-center gap-3 mb-1">
-                <h1 className="text-3xl font-[Racing_Sans_One] text-gray-800">{race.name}</h1>
+                <h1 className="text-3xl font-[Racing_Sans_One] text-gray-800 dark:text-gray-100">{race.name}</h1>
                 <Chip
                   label={race.status}
                   color={STATUS_COLOR[race.status] ?? "default"}
                   size="small"
                 />
               </div>
-              <div className="text-gray-500">
+              <div className="text-gray-500 dark:text-gray-400">
                 {race.city}, {race.country}
               </div>
-              <div className="text-gray-400 text-sm">
+              <div className="text-gray-400 dark:text-gray-500 text-sm">
                 {new Date(race.race_date).toLocaleString(undefined, {
                   weekday: "long",
                   year: "numeric",

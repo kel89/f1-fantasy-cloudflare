@@ -126,6 +126,12 @@ export const api = {
         method: "PATCH",
         body: JSON.stringify(data),
       }),
+
+    resetPassword: (data: { email: string; newPassword: string }) =>
+      request<{ ok: boolean }>("/auth/reset-password", {
+        method: "POST",
+        body: JSON.stringify(data),
+      }, false),
   },
 
   // ─── Races ──────────────────────────────────────────────────────────────────
@@ -193,6 +199,9 @@ export const api = {
         method: "PATCH",
         body: JSON.stringify(data),
       }),
+
+    unlockRace: (raceId: string) =>
+      request<Race>(`/admin/races/${raceId}/unlock`, { method: "POST" }),
   },
 };
 

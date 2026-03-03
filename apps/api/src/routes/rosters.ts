@@ -5,6 +5,7 @@ import type { Env } from "../types";
 import { requireAuth } from "../middleware/auth";
 import { requireAdmin } from "../middleware/auth";
 import { generateId } from "../lib/ids";
+import { safeJsonParse } from "../lib/safeJson";
 
 const rosters = new Hono<{ Bindings: Env }>();
 
@@ -27,8 +28,8 @@ rosters.get("/:id/roster", async (c) => {
 
   return c.json({
     ...roster,
-    driver_order: JSON.parse(roster.driver_order || "[]"),
-    breakdown: roster.breakdown ? JSON.parse(roster.breakdown) : null,
+    driver_order: safeJsonParse<string[]>(roster.driver_order, []),
+    breakdown: safeJsonParse<number[] | null>(roster.breakdown, null),
   });
 });
 
@@ -103,7 +104,7 @@ rosters.put("/:id/roster", zValidator("json", setRosterSchema), async (c) => {
     return c.json({
       ...updated,
       driver_order,
-      breakdown: updated?.breakdown ? JSON.parse(updated.breakdown) : null,
+      breakdown: safeJsonParse<number[] | null>(updated?.breakdown, null),
     });
   } else {
     const id = generateId();
@@ -173,8 +174,8 @@ rosters.patch(
 
     return c.json({
       ...updated,
-      driver_order: JSON.parse(updated?.driver_order || "[]"),
-      breakdown: updated?.breakdown ? JSON.parse(updated.breakdown) : null,
+      driver_order: safeJsonParse<string[]>(updated?.driver_order, []),
+      breakdown: safeJsonParse<number[] | null>(updated?.breakdown, null),
     });
   }
 );

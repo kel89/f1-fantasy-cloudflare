@@ -59,4 +59,18 @@ app.onError((err, c) => {
   return c.json({ error: "Internal server error", code: "INTERNAL_ERROR" }, 500);
 });
 
-export default app;
+async function handleScheduled(event: ScheduledEvent, env: Env) {
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `UPDATE races SET status = 'locked'
+     WHERE status = 'upcoming' AND race_date <= ?
+       AND (lock_override_until IS NULL OR lock_override_until <= ?)`
+  )
+    .bind(now, now)
+    .run();
+}
+
+export default {
+  fetch: app.fetch,
+  scheduled: handleScheduled,
+};

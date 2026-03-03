@@ -127,6 +127,9 @@ importers:
       vitest:
         specifier: ^2.1.8
         version: 2.1.9(jsdom@26.1.0)(lightningcss@1.31.1)
+      wrangler:
+        specifier: ^3.109.2
+        version: 3.114.17(@cloudflare/workers-types@4.20260301.1)
 
   packages/shared:
     devDependencies:
