@@ -97,7 +97,7 @@ auth.post("/signup", zValidator("json", signupSchema), async (c) => {
   setCookie(c, "refresh_token", refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "Lax",
+    sameSite: "None",
     maxAge: 30 * 24 * 60 * 60,
     path: "/api/auth",
   });
@@ -147,7 +147,7 @@ auth.post("/login", zValidator("json", loginSchema), async (c) => {
   setCookie(c, "refresh_token", refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: "Lax",
+    sameSite: "None",
     maxAge: 30 * 24 * 60 * 60,
     path: "/api/auth",
   });
@@ -173,7 +173,7 @@ auth.post("/logout", async (c) => {
       // Token invalid/expired — nothing to blacklist
     }
   }
-  deleteCookie(c, "refresh_token", { path: "/api/auth", sameSite: "Lax", secure: true });
+  deleteCookie(c, "refresh_token", { path: "/api/auth", sameSite: "None", secure: true });
   return c.json({ ok: true });
 });
 
