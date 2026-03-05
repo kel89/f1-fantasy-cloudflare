@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "deploy": "tsc && vite build && wrangler pages deploy dist --project-name f1-fantasy"
+    "deploy": "tsc && VITE_API_URL=https://f1-fantasy-api.lipkekenny.workers.dev vite build && wrangler pages deploy dist --project-name f1-fantasy"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
