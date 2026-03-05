@@ -1,4 +1,5 @@
 import type {
+  Announcement,
   AuthResponse,
   Driver,
   LeaderboardEntry,
@@ -173,6 +174,11 @@ export const api = {
     list: () => request<Driver[]>("/drivers"),
   },
 
+  // ─── Announcement ──────────────────────────────────────────────────────────
+  announcement: {
+    get: () => request<{ announcement: Announcement | null }>("/announcement"),
+  },
+
   // ─── Leaderboard ────────────────────────────────────────────────────────────
   leaderboard: {
     get: () => request<LeaderboardEntry[]>("/leaderboard"),
@@ -202,6 +208,15 @@ export const api = {
 
     unlockRace: (raceId: string) =>
       request<Race>(`/admin/races/${raceId}/unlock`, { method: "POST" }),
+
+    postAnnouncement: (data: { message: string }) =>
+      request<Announcement>("/admin/announcement", { method: "POST", body: JSON.stringify(data) }),
+
+    deleteAnnouncement: () =>
+      request<{ ok: boolean }>("/admin/announcement", { method: "DELETE" }),
+
+    resetAnnouncementVisibility: () =>
+      request<{ ok: boolean }>("/admin/announcement/reset", { method: "POST" }),
   },
 };
 

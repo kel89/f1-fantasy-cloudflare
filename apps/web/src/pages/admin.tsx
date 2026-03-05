@@ -26,7 +26,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import type { TransitionProps } from "@mui/material/transitions";
-import type { Race, Driver, User } from "@f1/shared";
+import type { Announcement, Race, Driver, User } from "@f1/shared";
 import { api, ApiError } from "../api/client";
 import RosterEditor from "../partials/race/rosterEditor";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -471,6 +471,121 @@ function UsersTab() {
   );
 }
 
+// ─── Banner Tab ──────────────────────────────────────────────────────────────
+function BannerTab() {
+  const [announcement, setAnnouncement] = useState<Announcement | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  const load = () => {
+    api.announcement.get().then(({ announcement: a }) => {
+      setAnnouncement(a);
+      setLoading(false);
+    });
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const handlePost = async () => {
+    if (!message.trim()) return;
+    setSaving(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      const a = await api.admin.postAnnouncement({ message: message.trim() });
+      setAnnouncement(a);
+      setMessage("");
+      setSuccess("Announcement posted");
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Failed to post announcement");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleReset = async () => {
+    setSaving(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      await api.admin.resetAnnouncementVisibility();
+      load();
+      setSuccess("Visibility reset — all users will see the banner again");
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Failed to reset visibility");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("Delete the current announcement?")) return;
+    setSaving(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      await api.admin.deleteAnnouncement();
+      setAnnouncement(null);
+      setSuccess("Announcement deleted");
+    } catch (e) {
+      setError(e instanceof ApiError ? e.message : "Failed to delete announcement");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <div className="flex justify-center py-8"><CircularProgress color="error" /></div>;
+
+  return (
+    <div className="max-w-lg">
+      {error && <Alert severity="error" className="mb-3" onClose={() => setError(null)}>{error}</Alert>}
+      {success && <Alert severity="success" className="mb-3" onClose={() => setSuccess(null)}>{success}</Alert>}
+
+      <Paper className="p-4 mb-4">
+        <Typography variant="subtitle2" color="text.secondary" className="mb-1">Current Announcement</Typography>
+        {announcement ? (
+          <>
+            <Typography className="mb-2">{announcement.message}</Typography>
+            <Typography variant="caption" color="text.secondary">
+              Version {announcement.version} &middot; Updated {new Date(announcement.updated_at).toLocaleString()}
+            </Typography>
+            <div className="flex gap-2 mt-3">
+              <Button size="small" variant="outlined" onClick={handleReset} disabled={saving}>
+                Reset Visibility
+              </Button>
+              <Button size="small" variant="outlined" color="error" onClick={handleDelete} disabled={saving}>
+                Delete
+              </Button>
+            </div>
+          </>
+        ) : (
+          <Typography color="text.secondary">No active announcement</Typography>
+        )}
+      </Paper>
+
+      <Paper className="p-4">
+        <Typography variant="subtitle2" color="text.secondary" className="mb-2">Post New Announcement</Typography>
+        <TextField
+          label="Message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          fullWidth
+          multiline
+          minRows={2}
+          disabled={saving}
+          className="mb-3"
+        />
+        <Button variant="contained" color="error" onClick={handlePost} disabled={saving || !message.trim()}>
+          {saving ? <CircularProgress size={20} color="inherit" /> : "Post"}
+        </Button>
+      </Paper>
+    </div>
+  );
+}
+
 // ─── Admin Page ───────────────────────────────────────────────────────────────
 export default function Admin() {
   const [tab, setTab] = useState(0);
@@ -484,11 +599,13 @@ export default function Admin() {
           <Tabs value={tab} onChange={(_, v) => setTab(v)} indicatorColor="secondary">
             <Tab label="Races" />
             <Tab label="Users" />
+            <Tab label="Banner" />
           </Tabs>
         </Box>
 
         {tab === 0 && <RacesTab />}
         {tab === 1 && <UsersTab />}
+        {tab === 2 && <BannerTab />}
       </div>
     </Layout>
   );

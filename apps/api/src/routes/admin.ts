@@ -257,6 +257,51 @@ admin.post("/races/:id/unlock", async (c) => {
   return c.json(updated);
 });
 
+// ── Announcements ────────────────────────────────────────────────────────────
+
+const announcementSchema = z.object({
+  message: z.string().min(1).max(1000).trim(),
+});
+
+// POST /api/admin/announcement — create/replace announcement
+admin.post("/announcement", zValidator("json", announcementSchema), async (c) => {
+  const { message } = c.req.valid("json");
+  const id = generateId();
+
+  await c.env.DB.batch([
+    c.env.DB.prepare("DELETE FROM announcements"),
+    c.env.DB.prepare(
+      "INSERT INTO announcements (id, message, version) VALUES (?, ?, 1)"
+    ).bind(id, message),
+  ]);
+
+  const row = await c.env.DB.prepare("SELECT * FROM announcements WHERE id = ?")
+    .bind(id)
+    .first();
+
+  return c.json(row);
+});
+
+// DELETE /api/admin/announcement — remove announcement
+admin.delete("/announcement", async (c) => {
+  await c.env.DB.prepare("DELETE FROM announcements").run();
+  return c.json({ ok: true });
+});
+
+// POST /api/admin/announcement/reset — bump version to force re-display
+admin.post("/announcement/reset", async (c) => {
+  const existing = await c.env.DB.prepare("SELECT id FROM announcements LIMIT 1").first();
+  if (!existing) {
+    return c.json({ error: "No active announcement", code: "NOT_FOUND" }, 404);
+  }
+
+  await c.env.DB.prepare(
+    "UPDATE announcements SET version = version + 1, updated_at = datetime('now')"
+  ).run();
+
+  return c.json({ ok: true });
+});
+
 // Scoring table constant
 const POSITION_POINTS: Record<number, number> = {
   1: 25, 2: 18, 3: 15, 4: 12, 5: 10,

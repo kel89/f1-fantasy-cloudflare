@@ -8,6 +8,7 @@ import driverRoutes from "./routes/drivers";
 import rosterRoutes from "./routes/rosters";
 import leaderboardRoutes from "./routes/leaderboard";
 import adminRoutes from "./routes/admin";
+import announcementRoutes from "./routes/announcement";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -45,6 +46,7 @@ app.route("/api/races", rosterRoutes);
 app.route("/api/drivers", driverRoutes);
 app.route("/api/leaderboard", leaderboardRoutes);
 app.route("/api/admin", adminRoutes);
+app.route("/api/announcement", announcementRoutes);
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 app.get("/api/health", (c) => c.json({ ok: true, ts: Date.now() }));

@@ -100,6 +100,15 @@ export interface AdminRosterOverrideRequest {
   breakdown?: number[];
 }
 
+// Announcement
+export interface Announcement {
+  id: string;
+  message: string;
+  version: number;
+  created_at: string;
+  updated_at: string;
+}
+
 // Leaderboard
 export interface LeaderboardEntry {
   id: string;

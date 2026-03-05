@@ -25,6 +25,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useAuthStore } from "../store/auth";
 import { useThemeStore } from "../store/theme";
+import AnnouncementBanner from "../components/AnnouncementBanner";
 
 interface LayoutProps {
   children: ReactNode;
@@ -126,6 +127,7 @@ export function Layout({ children, pageName }: LayoutProps) {
         </AppBar>
       </Box>
 
+      <AnnouncementBanner />
       {children}
     </>
   );
