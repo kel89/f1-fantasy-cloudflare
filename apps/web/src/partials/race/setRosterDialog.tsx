@@ -89,7 +89,7 @@ export default function SetRosterDialog({
       onClose={() => setOpen(false)}
       TransitionComponent={Transition}
     >
-      <AppBar sx={{ position: "relative", backgroundColor: "#e10600" }}>
+      <AppBar sx={{ position: "relative", background: "linear-gradient(90deg, #e10600, #b30500)" }}>
         <Toolbar>
           <IconButton
             edge="start"

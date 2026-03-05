@@ -14,9 +14,9 @@ interface RosterEditorProps {
 }
 
 const POSITION_COLORS = [
-  "bg-amber-200", // 1st
-  "bg-gray-200",  // 2nd
-  "bg-yellow-600 text-white", // 3rd
+  "border-l-4 border-l-yellow-400 bg-yellow-50 dark:bg-yellow-900/20",   // 1st - gold
+  "border-l-4 border-l-gray-400 bg-gray-50 dark:bg-gray-600/20",         // 2nd - silver
+  "border-l-4 border-l-amber-600 bg-amber-50 dark:bg-amber-900/20",      // 3rd - bronze
 ];
 
 export default function RosterEditor({
@@ -42,7 +42,7 @@ export default function RosterEditor({
         <ReactSortable list={sortableList} setList={handleSetList}>
           {driverOrder.map((abbr, i) => {
             const driver = driverData.find((d) => d.abbreviation === abbr);
-            const colorClass = POSITION_COLORS[i] ?? (i >= 10 ? "bg-gray-100 dark:bg-gray-800" : "bg-white dark:bg-gray-700");
+            const colorClass = POSITION_COLORS[i] ?? (i >= 10 ? "border-l-4 border-l-transparent bg-gray-100 dark:bg-gray-800" : "border-l-4 border-l-transparent bg-white dark:bg-gray-700");
             return (
               <div
                 key={abbr}

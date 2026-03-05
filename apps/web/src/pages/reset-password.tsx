@@ -40,9 +40,9 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 w-full max-w-sm">
-        <h1 className="text-3xl font-[Racing_Sans_One] text-red-600 mb-6 text-center">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-red-950 to-gray-900 flex items-center justify-center px-4">
+      <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-8 w-full max-w-sm">
+        <h1 className="text-4xl font-[Racing_Sans_One] text-red-600 mb-6 text-center">
           F1 Fantasy
         </h1>
         <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">Reset Password</h2>

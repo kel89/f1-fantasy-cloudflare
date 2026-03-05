@@ -26,7 +26,7 @@ export default function RosterList({ race, drivers }: RosterListProps) {
 
   return (
     <>
-      <div className="p-4 bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-lg rounded">
+      <div className="f1-card">
         <h2 className="font-[Racing_Sans_One] text-xl text-gray-500 dark:text-gray-300 mb-2">Other Rosters</h2>
         {race.rosters.length === 0 ? (
           <p className="text-gray-400 text-sm">No rosters submitted yet.</p>
@@ -37,7 +37,7 @@ export default function RosterList({ race, drivers }: RosterListProps) {
               .map((roster) => (
                 <div
                   key={roster.id}
-                  className="w-full border-b border-gray-100 dark:border-gray-700 flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 py-2 px-1"
+                  className="w-full border-b border-gray-100 dark:border-gray-700 flex justify-between items-center cursor-pointer hover:bg-red-50 dark:hover:bg-gray-700 py-2.5 px-2 rounded transition duration-150"
                   onClick={() => setSelected(roster)}
                 >
                   <span className="text-gray-700 dark:text-gray-200">{roster.user.nickname}</span>

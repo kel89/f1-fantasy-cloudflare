@@ -27,7 +27,7 @@ export default function YourRoster({ race, drivers, onRosterUpdated }: YourRoste
 
   return (
     <>
-      <div className="p-4 bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-lg rounded">
+      <div className="f1-card">
         <div className="flex justify-between items-center mb-3">
           <h1 className="font-[Racing_Sans_One] text-xl text-gray-800 dark:text-gray-100">Your Roster</h1>
           {myRoster && !isLocked && (

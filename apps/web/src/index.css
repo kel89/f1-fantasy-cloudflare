@@ -9,3 +9,50 @@ body {
 @theme {
   --font-racing: "Racing Sans One", sans-serif;
 }
+
+/* Dot-grid background pattern */
+.f1-bg {
+  background-image: radial-gradient(circle, #d1d5db 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dark .f1-bg {
+  background-image: radial-gradient(circle, #374151 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Custom scrollbar */
+.race-list-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.race-list-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.race-list-scroll::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 3px;
+}
+.race-list-scroll::-webkit-scrollbar-thumb:hover {
+  background: #e10600;
+}
+
+/* Card utility */
+@layer components {
+  .f1-card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    padding: 1.5rem;
+  }
+  .dark .f1-card {
+    background: #1f2937;
+  }
+}
+
+/* Pulsing animation for next race indicator */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}

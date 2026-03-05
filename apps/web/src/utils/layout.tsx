@@ -6,7 +6,6 @@ import {
   Toolbar,
   IconButton,
   Typography,
-  Button,
   Drawer,
   List,
   ListItem,
@@ -16,6 +15,7 @@ import {
   Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HomeIcon from "@mui/icons-material/Home";
 import HelpIcon from "@mui/icons-material/Help";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -94,7 +94,7 @@ export function Layout({ children, pageName }: LayoutProps) {
       </Drawer>
 
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ backgroundColor: "#e10600" }}>
+        <AppBar position="static" sx={{ background: "linear-gradient(90deg, #e10600, #b30500)" }}>
           <Toolbar>
             <IconButton
               onClick={() => setDrawerOpen(true)}
@@ -106,15 +106,22 @@ export function Layout({ children, pageName }: LayoutProps) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: "flex", alignItems: "center", gap: 1 }}
+            >
+              <span style={{ fontFamily: "'Racing Sans One', sans-serif", fontSize: "1.1rem" }}>
+                F1
+              </span>
               {pageName}
             </Typography>
             <IconButton color="inherit" onClick={toggleTheme} sx={{ mr: 1 }}>
               {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
             </IconButton>
-            <Button color="inherit" onClick={() => navigate(-1)}>
-              Back
-            </Button>
+            <IconButton color="inherit" onClick={() => navigate(-1)} aria-label="back">
+              <ArrowBackIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
       </Box>
