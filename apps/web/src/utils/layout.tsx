@@ -110,12 +110,27 @@ export function Layout({ children, pageName }: LayoutProps) {
             <Typography
               variant="h6"
               component="div"
-              sx={{ flexGrow: 1, display: "flex", alignItems: "center", gap: 1 }}
+              sx={{ flexGrow: 1, display: "flex", alignItems: "center", gap: 1.75 }}
             >
-              <span style={{ fontFamily: "'Racing Sans One', sans-serif", fontSize: "1.1rem" }}>
+              <span
+                style={{
+                  fontFamily: "'Racing Sans One', sans-serif",
+                  fontSize: "1.1rem",
+                  letterSpacing: "0.06em",
+                }}
+              >
                 F1
               </span>
-              {pageName}
+              <span
+                style={{
+                  fontFamily: "'Racing Sans One', sans-serif",
+                  fontSize: "1rem",
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {pageName}
+              </span>
             </Typography>
             <IconButton color="inherit" onClick={toggleTheme} sx={{ mr: 1 }}>
               {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
