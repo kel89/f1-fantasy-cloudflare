@@ -36,24 +36,20 @@ export default function RosterPreview({ roster, drivers, results }: RosterPrevie
         return (
           <div
             key={abbr}
-            className={`grid grid-cols-[1.5rem_2.5rem_minmax(0,1fr)_2rem] gap-3 items-center border-t border-gray-100 dark:border-gray-700 py-1 min-h-12 transition duration-200 ${rowBg}`}
+            className={`flex gap-3 items-center border-t border-gray-100 dark:border-gray-700 py-1 transition duration-200 ${rowBg}`}
           >
             <div className="font-bold text-gray-800 dark:text-gray-200 text-lg w-6 text-right">{i + 1}</div>
             <DriverImage abbreviation={abbr} className="h-10 w-10 object-cover" />
-            <div className="min-w-0">
-              <div className="text-sm font-medium truncate">
+            <div className="flex-1">
+              <div className="text-sm font-medium">
                 {driver ? `${driver.first_name} ${driver.last_name}` : abbr}
               </div>
-              {driver && (
-                <div className="text-xs text-gray-400 dark:text-gray-500 truncate">{driver.team}</div>
-              )}
+              {driver && <div className="text-xs text-gray-400 dark:text-gray-500">{driver.team}</div>}
             </div>
-            {isScored ? (
-              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 text-right tabular-nums">
+            {isScored && (
+              <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 min-w-8 text-right">
                 {pts !== undefined ? (pts > 0 ? `+${pts}` : "0") : ""}
               </div>
-            ) : (
-              <div />
             )}
           </div>
         );
