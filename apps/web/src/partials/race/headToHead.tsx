@@ -64,7 +64,7 @@ export default function HeadToHead({
         )}
       </DialogTitle>
       <DialogContent>
-        <div className="grid sm:grid-cols-2 grid-cols-1 gap-6">
+        <div className="grid grid-cols-2 gap-4">
           <div>
             <h3 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">Your Roster</h3>
             <RosterPreview
