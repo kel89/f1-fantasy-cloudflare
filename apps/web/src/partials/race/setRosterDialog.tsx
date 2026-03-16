@@ -20,8 +20,8 @@ const Transition = forwardRef(function Transition(
 });
 
 const TEAM_ORDER = [
-  "McLaren", "Mercedes", "Red Bull", "Ferrari", "Williams",
-  "Aston Martin", "Racing Bulls", "Haas", "Audi", "Alpine", "Cadillac",
+  "Mercedes", "Ferrari", "McLaren", "Haas", "Red Bull",
+  "Racing Bulls", "Alpine", "Audi", "Williams", "Cadillac", "Aston Martin",
 ];
 
 function getDefaultOrder(drivers: Driver[]): string[] {
