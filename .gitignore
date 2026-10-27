@@ -6,6 +6,10 @@ dist/
 build/
 .output/
 
+# ─── Generated reports ────────────────────────────────────────────────────────
+player-scores-over-time.png
+player-scores-over-time.svg
+
 # ─── Cloudflare / Wrangler ────────────────────────────────────────────────────
 .wrangler/           # local D1 state, miniflare cache — never commit
 .dev.vars            # local secrets (JWT_SECRET, REFRESH_SECRET)
