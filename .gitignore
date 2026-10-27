@@ -11,8 +11,10 @@ player-scores-over-time.png
 player-scores-over-time.svg
 
 # ─── Cloudflare / Wrangler ────────────────────────────────────────────────────
-.wrangler/           # local D1 state, miniflare cache — never commit
-.dev.vars            # local secrets (JWT_SECRET, REFRESH_SECRET)
+# Local D1 state and Miniflare cache — never commit
+.wrangler/
+# Local secrets (JWT_SECRET, REFRESH_SECRET)
+.dev.vars
 .dev.vars.*
 
 # ─── Environment files ────────────────────────────────────────────────────────
