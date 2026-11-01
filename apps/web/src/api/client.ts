@@ -82,9 +82,18 @@ async function request<T>(
     let code = "UNKNOWN_ERROR";
     let message = `HTTP ${res.status}`;
     try {
-      const body = (await res.json()) as { error: string; code: string };
+      const body = (await res.json()) as { error?: unknown; code?: string };
       code = body.code ?? code;
-      message = body.error ?? message;
+      if (typeof body.error === "string") {
+        message = body.error;
+      } else if (body.error && typeof body.error === "object") {
+        // zValidator failures return { success: false, error: ZodError }
+        const issue = (body.error as { issues?: { message?: string; path?: unknown[] }[] }).issues?.[0];
+        if (issue?.message) {
+          code = "VALIDATION_ERROR";
+          message = issue.path?.length ? `${issue.path.join(".")}: ${issue.message}` : issue.message;
+        }
+      }
     } catch {
       // ignore parse error
     }

@@ -37,7 +37,7 @@ const setRosterSchema = z.object({
   driver_order: z
     .array(z.string().min(2).max(5))
     .min(1)
-    .max(22),
+    .max(30),
 });
 
 // PUT /api/races/:id/roster — create or update roster
@@ -131,7 +131,7 @@ rosters.put("/:id/roster", zValidator("json", setRosterSchema), async (c) => {
 
 // PATCH /api/races/:id/rosters/:rosterId — admin override any roster
 const adminRosterSchema = z.object({
-  driver_order: z.array(z.string()).min(1).max(22).optional(),
+  driver_order: z.array(z.string()).min(1).max(30).optional(),
   total_points: z.number().int().optional(),
   breakdown: z.array(z.number()).optional(),
 });
