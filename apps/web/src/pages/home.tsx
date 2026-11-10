@@ -19,7 +19,7 @@ export default function Home() {
             </p>
           </div>
         )}
-        <div className="p-6 grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="p-6 grid grid-cols-1 lg:grid-cols-5 gap-6 f1-tablet-page f1-tablet-home-grid">
           <div className="lg:col-span-3">
             <RaceList />
           </div>

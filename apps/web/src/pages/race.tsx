@@ -47,7 +47,7 @@ export default function Race() {
     <Layout pageName={race ? race.city : "Race"}>
       <div className="f1-bg bg-gray-100 dark:bg-gray-900 min-h-screen">
         {loading || !race ? (
-          <div className="p-6">
+          <div className="p-6 f1-tablet-page">
             <Skeleton variant="text" width={200} height={40} className="mb-2" />
             <Skeleton variant="text" width={150} height={24} className="mb-1" />
             <Skeleton variant="text" width={250} height={20} className="mb-4" />
@@ -84,7 +84,7 @@ export default function Race() {
               </div>
             </div>
 
-            <div className="p-6 grid sm:grid-cols-2 grid-cols-1 gap-4">
+            <div className="p-6 grid sm:grid-cols-2 grid-cols-1 gap-4 f1-tablet-page f1-tablet-race-grid">
               <div>
                 <YourRoster
                   race={race}

@@ -48,6 +48,27 @@ body {
   }
 }
 
+/*
+ * Tablet (700px–1023px) sits between the phone-first layouts and the
+ * widescreen desktop layout. Keeping these rules scoped to this range means
+ * the established phone and desktop presentations stay unchanged.
+ */
+@media (min-width: 43.75rem) and (max-width: 63.999rem) {
+  .f1-tablet-page {
+    padding: 2rem;
+  }
+
+  .f1-tablet-home-grid {
+    grid-template-columns: minmax(0, 3fr) minmax(17rem, 2fr);
+    gap: 1.5rem;
+  }
+
+  .f1-tablet-race-grid {
+    grid-template-columns: minmax(0, 6fr) minmax(19rem, 5fr);
+    gap: 1.5rem;
+  }
+}
+
 /* Pulsing animation for next race indicator */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }

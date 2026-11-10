@@ -9,7 +9,7 @@ const ORDINALS: Record<number, string> = {
 export default function About() {
   return (
     <Layout pageName="About">
-      <div className="p-6 gap-8 bg-gray-100 dark:bg-gray-900 min-h-screen w-full flex justify-center">
+      <div className="p-6 gap-8 bg-gray-100 dark:bg-gray-900 min-h-screen w-full flex justify-center f1-tablet-page">
         <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 rounded-sm p-5 w-full max-w-3xl shadow-lg">
           <h1 className="text-3xl font-[Racing_Sans_One] text-gray-700 dark:text-gray-200 mb-2">
             How To Play
